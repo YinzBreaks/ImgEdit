@@ -50,6 +50,7 @@ def _write_preset(path: Path) -> None:
             "web_format": "jpeg",
             "web_quality": 90,
             "embed_profile": True,
+            "include_relpath_slug": False,
         },
     }
     path.write_text(json.dumps(preset, indent=2), encoding="utf-8")

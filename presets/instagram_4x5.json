@@ -53,6 +53,7 @@
     "web_enabled": true,
     "web_format": "jpeg",
     "web_quality": 90,
-    "embed_profile": true
+    "embed_profile": true,
+    "include_relpath_slug": false
   }
 }

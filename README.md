@@ -41,11 +41,26 @@ Run batch:
 python -m src.cli --preset presets/ebay_square.json --input-dir in --glob "*.png" --outdir out --reports-dir reports
 ```
 
+Batch subcommand form (equivalent behavior):
+
+```powershell
+python -m src.cli batch --preset presets/ebay_square.json --input-dir in --recursive --outdir out --reports-dir reports
+```
+
+Recommended execution form:
+
+- Use module execution from repo root: `python -m src.cli ...`
+- Single-file mode processes one image and writes one report entry.
+- Folder/batch mode processes images one-by-one in deterministic order.
+- Reports are written to `reports/` and manifest entries append to `reports/manifest.json` for non-dry-run execution.
+
 Run tests:
 
 ```powershell
-pytest
+& .\.venv\Scripts\python.exe -m pytest -q
 ```
+
+If your shell already has `.venv` activated, `pytest -q` is equivalent.
 
 ## Demo Run (Verbatim)
 

@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import numpy as np
 
+from .types import Config, ImageU8
+
 
 def _clip01(arr: np.ndarray) -> np.ndarray:
     return np.clip(arr, 0.0, 1.0)
 
 
-def apply_tone(arr_u8: np.ndarray, cfg: dict) -> np.ndarray:
+def apply_tone(arr_u8: ImageU8, cfg: Config) -> ImageU8:
     arr = arr_u8.astype(np.float32) / 255.0
 
     exposure_ev = float(cfg.get("exposure_ev", 0.0))

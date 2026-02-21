@@ -59,3 +59,4 @@ All fields are mandatory and validated by `schemas/preset.schema.json`.
 - `web_format`: `jpeg`/`jpg`.
 - `web_quality`: JPEG quality `1..100`.
 - `embed_profile`: embed ICC profile if available.
+- `include_relpath_slug`: include deterministic relative-path slug in output stem to prevent collisions in recursive batches.

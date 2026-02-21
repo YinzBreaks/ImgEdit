@@ -23,11 +23,37 @@ Batch run:
 python -m src.cli --preset presets/ebay_square.json --input-dir in --glob "*.png" --outdir out --reports-dir reports
 ```
 
+Recursive batch run:
+
+```bash
+python -m src.cli --preset presets/ebay_square.json --input-dir in --recursive --outdir out --reports-dir reports
+```
+
+Continue-on-error batch run:
+
+```bash
+python -m src.cli --preset presets/ebay_square.json --input-dir in --recursive --on-error continue --outdir out --reports-dir reports
+```
+
+Dry-run audit:
+
+```bash
+python -m src.cli --preset presets/ebay_square.json --input-dir in --recursive --dry-run --outdir out --reports-dir reports
+```
+
+Optional file cap:
+
+```bash
+python -m src.cli --preset presets/ebay_square.json --input-dir in --recursive --max-files 100 --outdir out --reports-dir reports
+```
+
 Tests:
 
 ```bash
-pytest
+./.venv/Scripts/python.exe -m pytest -q
 ```
+
+If `.venv` is already activated, `pytest -q` is equivalent.
 
 ## Troubleshooting
 
@@ -36,6 +62,9 @@ pytest
 - Clipping gate failure: reduce exposure/contrast, adjust points conservatively.
 - Translation gate failure: investigate unintended transform/shift behavior.
 - Pixel diff gate failure: relax `max_mae`/`max_diff_pixels_pct` only when explicitly justified.
+- Recursive discovery misses files: check `--include-ext` list (defaults to `png,jpg,jpeg`).
+- Colliding names across subfolders: set `export.include_relpath_slug=true`.
+- Need audit without mutation: use `--dry-run`; review `reports/batch_<timestamp>.md`.
 
 ## Adding a New Preset Safely
 

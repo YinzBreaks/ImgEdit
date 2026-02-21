@@ -275,7 +275,8 @@
         "web_enabled",
         "web_format",
         "web_quality",
-        "embed_profile"
+        "embed_profile",
+        "include_relpath_slug"
       ],
       "properties": {
         "keep_png_master": {
@@ -297,6 +298,9 @@
           "maximum": 100
         },
         "embed_profile": {
+          "type": "boolean"
+        },
+        "include_relpath_slug": {
           "type": "boolean"
         }
       }

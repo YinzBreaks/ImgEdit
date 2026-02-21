@@ -3,8 +3,10 @@ from __future__ import annotations
 import numpy as np
 from PIL import Image, ImageFilter
 
+from .types import Config, ImageU8
 
-def apply_detail(arr_u8: np.ndarray, cfg: dict) -> np.ndarray:
+
+def apply_detail(arr_u8: ImageU8, cfg: Config) -> ImageU8:
     denoise_strength = float(cfg.get("denoise_strength", 0.0))
     sharpen_amount = float(cfg.get("sharpen_amount", 0.0))
     sharpen_radius = float(cfg.get("sharpen_radius", 1.0))
