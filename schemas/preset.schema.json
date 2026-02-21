@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/pro-image-pipeline/preset.schema.json",
+  "title": "Enhance-only Preset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "io",
+    "tone",
+    "color",
+    "detail",
+    "geometry",
+    "safety",
+    "export"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "io": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preserve_metadata",
+        "exif_transpose"
+      ],
+      "properties": {
+        "preserve_metadata": {
+          "type": "boolean"
+        },
+        "exif_transpose": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "tone": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exposure_ev",
+        "contrast",
+        "black_point",
+        "white_point"
+      ],
+      "properties": {
+        "exposure_ev": {
+          "type": "number",
+          "minimum": -0.5,
+          "maximum": 0.5
+        },
+        "contrast": {
+          "type": "number",
+          "minimum": -0.3,
+          "maximum": 0.3
+        },
+        "black_point": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 0.2
+        },
+        "white_point": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 0.2
+        }
+      }
+    },
+    "color": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "saturation",
+        "vibrance",
+        "wb_mode"
+      ],
+      "properties": {
+        "saturation": {
+          "type": "number",
+          "minimum": -0.3,
+          "maximum": 0.3
+        },
+        "vibrance": {
+          "type": "number",
+          "minimum": -0.3,
+          "maximum": 0.3
+        },
+        "wb_mode": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "daylight",
+            "tungsten"
+          ]
+        }
+      }
+    },
+    "detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "denoise_strength",
+        "sharpen_amount",
+        "sharpen_radius"
+      ],
+      "properties": {
+        "denoise_strength": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "sharpen_amount": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 2.0
+        },
+        "sharpen_radius": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 3.0
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "crop",
+        "resize"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "crop": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled",
+            "x",
+            "y",
+            "width",
+            "height"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "x": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "y": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "resize": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled",
+            "width",
+            "height",
+            "resample"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "resample": {
+              "type": "string",
+              "enum": [
+                "nearest",
+                "bilinear",
+                "bicubic",
+                "lanczos"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_channel_clip_pct",
+        "clip_eval_mode",
+        "clip_black_level",
+        "clip_white_level",
+        "no_geometry_change",
+        "identical_composition_expected",
+        "max_translation_pixels",
+        "pixel_diff_gate",
+        "max_mae",
+        "max_diff_pixels_pct"
+      ],
+      "properties": {
+        "max_channel_clip_pct": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 100.0
+        },
+        "clip_eval_mode": {
+          "type": "string",
+          "enum": [
+            "any_channel",
+            "luma_only",
+            "per_channel"
+          ]
+        },
+        "clip_black_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "clip_white_level": {
+          "type": "integer",
+          "minimum": 250,
+          "maximum": 255
+        },
+        "no_geometry_change": {
+          "type": "boolean"
+        },
+        "identical_composition_expected": {
+          "type": "boolean"
+        },
+        "max_translation_pixels": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 3.0
+        },
+        "pixel_diff_gate": {
+          "type": "boolean"
+        },
+        "max_mae": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10.0
+        },
+        "max_diff_pixels_pct": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 100.0
+        }
+      }
+    },
+    "export": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "keep_png_master",
+        "web_enabled",
+        "web_format",
+        "web_quality",
+        "embed_profile"
+      ],
+      "properties": {
+        "keep_png_master": {
+          "type": "boolean"
+        },
+        "web_enabled": {
+          "type": "boolean"
+        },
+        "web_format": {
+          "type": "string",
+          "enum": [
+            "jpeg",
+            "jpg"
+          ]
+        },
+        "web_quality": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "embed_profile": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

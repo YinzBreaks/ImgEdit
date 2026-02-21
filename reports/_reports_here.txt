@@ -1,0 +1,1 @@
+Per-image markdown reports and manifest.json are written here.

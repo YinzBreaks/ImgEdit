@@ -1,0 +1,58 @@
+{
+  "name": "ebay_gallery",
+  "io": {
+    "preserve_metadata": true,
+    "exif_transpose": false
+  },
+  "tone": {
+    "exposure_ev": 0.03,
+    "contrast": 0.05,
+    "black_point": 0.004,
+    "white_point": 0.004
+  },
+  "color": {
+    "saturation": 0.03,
+    "vibrance": 0.03,
+    "wb_mode": "none"
+  },
+  "detail": {
+    "denoise_strength": 0.04,
+    "sharpen_amount": 0.28,
+    "sharpen_radius": 0.9
+  },
+  "geometry": {
+    "enabled": true,
+    "crop": {
+      "enabled": false,
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "resize": {
+      "enabled": true,
+      "width": 1600,
+      "height": 1200,
+      "resample": "lanczos"
+    }
+  },
+  "safety": {
+    "max_channel_clip_pct": 4.0,
+    "clip_eval_mode": "any_channel",
+    "clip_black_level": 0,
+    "clip_white_level": 255,
+    "no_geometry_change": false,
+    "identical_composition_expected": false,
+    "max_translation_pixels": 0.0,
+    "pixel_diff_gate": false,
+    "max_mae": 0.5,
+    "max_diff_pixels_pct": 0.5
+  },
+  "export": {
+    "keep_png_master": true,
+    "web_enabled": true,
+    "web_format": "jpeg",
+    "web_quality": 92,
+    "embed_profile": true
+  }
+}

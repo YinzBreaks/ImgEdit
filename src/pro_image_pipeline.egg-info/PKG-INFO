@@ -1,0 +1,74 @@
+Metadata-Version: 2.4
+Name: pro-image-pipeline
+Version: 0.1.0
+Summary: Deterministic enhance-only image pipeline with strict QA guardrails
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: Pillow>=10.3.0
+Requires-Dist: numpy>=1.26.0
+Requires-Dist: jsonschema>=4.22.0
+
+# Pro Image Pipeline
+
+Deterministic, enhance-only image editing pipeline for commercial production.
+
+## Core Guarantees
+
+- Enhance-only edits from explicit preset parameters.
+- No generative fill, no redesign, no recomposition.
+- Strict preset schema validation with unknown-field rejection.
+- Deterministic processing with stable encoder settings.
+- QA gates for clipping, geometry policy, and translation drift detection.
+- Versioned outputs only (`_v001`, `_v002`, ...); no overwrites.
+- Per-image markdown report plus JSON batch manifest.
+
+## Repository Layout
+
+- `src/cli.py`: CLI entrypoint.
+- `src/pipeline/*`: deterministic processing and guards.
+- `schemas/preset.schema.json`: strict preset contract.
+- `presets/*.json`: production presets.
+- `reports/manifest.json`: append-only batch manifest.
+- `tests/*`: guardrail and determinism tests.
+
+## Quick Start
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+Run one image:
+
+```powershell
+python -m src.cli --preset presets/instagram_4x5.json --input in/my.png --outdir out --reports-dir reports
+```
+
+Run batch:
+
+```powershell
+python -m src.cli --preset presets/ebay_square.json --input-dir in --glob "*.png" --outdir out --reports-dir reports
+```
+
+Run tests:
+
+```powershell
+pytest
+```
+
+## Determinism Notes
+
+- Master PNG uses fixed compression settings.
+- Web JPEG uses fixed quality and non-progressive encoding.
+- Versioned naming avoids accidental overwrite side effects.
+- Determinism tests assert same-pixel outputs across repeated runs.
+
+## Guardrails
+
+Read and enforce before editing:
+
+- `EDITING_CONTRACT.md`
+- `docs/GUARDRAILS.md`
+- `docs/PRESET_SPEC.md`
+- `docs/QA_CHECKLIST.md`

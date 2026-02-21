@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pro-image-pipeline"
+version = "0.1.0"
+description = "Deterministic enhance-only image pipeline with strict QA guardrails"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "Pillow>=10.3.0",
+  "numpy>=1.26.0",
+  "jsonschema>=4.22.0"
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]

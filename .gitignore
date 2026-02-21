@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+out/*
+!out/_outputs_here.txt
+reports/*
+!reports/_reports_here.txt

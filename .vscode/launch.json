@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run single image",
+      "type": "python",
+      "request": "launch",
+      "module": "src.cli",
+      "args": [
+        "--preset", "presets/instagram_4x5.json",
+        "--input", "in/my.png",
+        "--outdir", "out",
+        "--reports-dir", "reports"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Run batch",
+      "type": "python",
+      "request": "launch",
+      "module": "src.cli",
+      "args": [
+        "--preset", "presets/ebay_square.json",
+        "--input-dir", "in",
+        "--glob", "*.png",
+        "--outdir", "out",
+        "--reports-dir", "reports"
+      ],
+      "console": "integratedTerminal"
+    }
+  ]
+}
