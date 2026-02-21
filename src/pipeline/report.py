@@ -4,9 +4,11 @@ from pathlib import Path
 
 import numpy as np
 
+from .types import ImageU8, ReportPayload
+
 
 def metrics(
-    arr_u8: np.ndarray,
+    arr_u8: ImageU8,
     *,
     clip_eval_mode: str = "any_channel",
     clip_black_level: int = 0,
@@ -46,7 +48,7 @@ def metrics(
     }
 
 
-def write_report(report_path: str | Path, payload: dict) -> None:
+def write_report(report_path: str | Path, payload: ReportPayload) -> None:
     out = Path(report_path)
     out.parent.mkdir(parents=True, exist_ok=True)
 

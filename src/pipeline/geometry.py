@@ -3,8 +3,10 @@ from __future__ import annotations
 import numpy as np
 from PIL import Image
 
+from .types import Config, ImageU8
 
-def _is_geometry_requested(geometry_cfg: dict) -> bool:
+
+def _is_geometry_requested(geometry_cfg: Config) -> bool:
     if not geometry_cfg.get("enabled", False):
         return False
     crop = geometry_cfg.get("crop", {})
@@ -12,12 +14,12 @@ def _is_geometry_requested(geometry_cfg: dict) -> bool:
     return bool(crop.get("enabled", False) or resize.get("enabled", False))
 
 
-def enforce_no_geometry_change_policy(safety_cfg: dict, geometry_cfg: dict) -> None:
+def enforce_no_geometry_change_policy(safety_cfg: Config, geometry_cfg: Config) -> None:
     if safety_cfg.get("no_geometry_change", True) and _is_geometry_requested(geometry_cfg):
         raise ValueError("Preset violates no_geometry_change: geometry operations are enabled")
 
 
-def apply_geometry(arr_u8: np.ndarray, geometry_cfg: dict) -> tuple[np.ndarray, list[str]]:
+def apply_geometry(arr_u8: ImageU8, geometry_cfg: Config) -> tuple[ImageU8, list[str]]:
     ops: list[str] = []
     if not geometry_cfg.get("enabled", False):
         return arr_u8, ops
@@ -59,14 +61,14 @@ def apply_geometry(arr_u8: np.ndarray, geometry_cfg: dict) -> tuple[np.ndarray, 
     return current, ops
 
 
-def assert_geometry_unchanged(before: np.ndarray, after: np.ndarray) -> None:
+def assert_geometry_unchanged(before: ImageU8, after: ImageU8) -> None:
     if before.shape != after.shape:
         raise ValueError(
             f"Geometry changed unexpectedly: {before.shape[1]}x{before.shape[0]} -> {after.shape[1]}x{after.shape[0]}"
         )
 
 
-def estimate_translation_pixels(ref_u8: np.ndarray, cand_u8: np.ndarray) -> tuple[float, float]:
+def estimate_translation_pixels(ref_u8: ImageU8, cand_u8: ImageU8) -> tuple[float, float]:
     if ref_u8.shape != cand_u8.shape:
         raise ValueError("Cannot estimate translation on arrays with different shapes")
 

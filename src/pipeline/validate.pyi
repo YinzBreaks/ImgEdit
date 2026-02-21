@@ -1,0 +1,9 @@
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+
+def load_preset(path: str | Path) -> dict[str, Any]: ...
+def load_schema(path: str | Path) -> dict[str, Any]: ...
+def validate_preset(preset: dict[str, Any], schema: dict[str, Any]) -> None: ...

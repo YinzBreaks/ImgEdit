@@ -41,7 +41,8 @@ def test_schema_rejects_unknown_fields() -> None:
             "web_enabled": False,
             "web_format": "jpeg",
             "web_quality": 90,
-            "embed_profile": True
+            "embed_profile": True,
+            "include_relpath_slug": False
         }
     }
 

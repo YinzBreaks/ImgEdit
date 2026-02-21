@@ -1,0 +1,26 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "cand",
+    "exif",
+    "venv",
+    "pytest",
+    "numpy",
+    "dtype",
+    "fromarray",
+    "subsampling",
+    "subfolders",
+    "relpath",
+    "denoise",
+    "inpainting",
+    "keepdims",
+    "lanczos",
+    "ifft",
+    "luma",
+    "pcts",
+    "suba",
+    "subb",
+    "slugification"
+  ]
+}

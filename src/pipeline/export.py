@@ -1,26 +1,62 @@
 from __future__ import annotations
 
-import re
 from pathlib import Path
 
 from .io import save_image
+from .naming import slugify
+from .types import Config, ImageU8
 
 
-def _slugify(value: str) -> str:
-    clean = re.sub(r"[^a-zA-Z0-9]+", "_", value.strip().lower()).strip("_")
-    return clean or "preset"
+def _relpath_slug(relative_input_path: str | Path) -> str:
+    rel = Path(relative_input_path)
+    no_suffix = rel.with_suffix("")
+    parts = [part for part in no_suffix.parts if part not in {".", ""}]
+    slug_parts = [slugify(part, fallback="part") for part in parts]
+    rel_slug = "__".join(part for part in slug_parts if part)
+    if not parts or not rel_slug:
+        raise ValueError(
+            "include_relpath_slug requires a relative input path that contains at least one usable "
+            "directory or file component after filtering out '.' and empty segments, and that "
+            "normalizes to a non-empty slug (for example, 'folder/file', not '.', './', an empty "
+            f"string, or components that all slugify to empty): {relative_input_path}"
+        )
+    return rel_slug
+
+
+def build_output_stem(
+    input_stem: str,
+    preset_name: str,
+    export_cfg: Config,
+    relative_input_path: str | Path | None = None,
+) -> str:
+    preset_slug = slugify(preset_name, fallback="preset")
+    include_relpath_slug = bool(export_cfg.get("include_relpath_slug", False))
+
+    if include_relpath_slug:
+        if relative_input_path is None:
+            raise ValueError("include_relpath_slug=true requires relative_input_path")
+        rel_slug = _relpath_slug(relative_input_path)
+        return f"{rel_slug}_{preset_slug}"
+
+    return f"{slugify(input_stem, fallback='preset')}_{preset_slug}"
 
 
 def build_versioned_paths(
     outdir: str | Path,
     input_stem: str,
     preset_name: str,
-    export_cfg: dict,
+    export_cfg: Config,
+    relative_input_path: str | Path | None = None,
 ) -> dict[str, Path]:
     out_path = Path(outdir)
     out_path.mkdir(parents=True, exist_ok=True)
 
-    stem = f"{_slugify(input_stem)}_{_slugify(preset_name)}"
+    stem = build_output_stem(
+        input_stem=input_stem,
+        preset_name=preset_name,
+        export_cfg=export_cfg,
+        relative_input_path=relative_input_path,
+    )
     keep_png_master = bool(export_cfg.get("keep_png_master", True))
     web_enabled = bool(export_cfg.get("web_enabled", False))
     web_format = str(export_cfg.get("web_format", "jpeg")).lower()
@@ -47,7 +83,12 @@ def build_versioned_paths(
     return result
 
 
-def export_images(arr, export_paths: dict[str, Path], export_cfg: dict, icc_profile: bytes | None) -> None:
+def export_images(
+    arr: ImageU8,
+    export_paths: dict[str, Path],
+    export_cfg: Config,
+    icc_profile: bytes | None,
+) -> None:
     embed_profile = bool(export_cfg.get("embed_profile", True))
 
     if "master" in export_paths:

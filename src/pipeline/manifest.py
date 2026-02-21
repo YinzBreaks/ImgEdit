@@ -3,8 +3,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from .types import ManifestEntry
 
-def append_manifest_entry(manifest_path: str | Path, entry: dict) -> None:
+
+def append_manifest_entry(manifest_path: str | Path, entry: ManifestEntry) -> None:
     path = Path(manifest_path)
     path.parent.mkdir(parents=True, exist_ok=True)
 
